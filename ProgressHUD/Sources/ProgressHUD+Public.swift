@@ -44,7 +44,7 @@ public extension ProgressHUD {
 public extension ProgressHUD {
 
 	class var window: UIWindow {
-		get { shared.main }
+		get { shared.main ?? UIWindow() }
 		set { shared.main = newValue }
 	}
 
