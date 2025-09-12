@@ -13,7 +13,7 @@ import UIKit
 
 public class ProgressHUD: UIView {
 
-	var main: UIWindow!
+	var main: UIWindow?
 
 	// Banner properties
 	var viewBanner: UIToolbar?
@@ -242,7 +242,7 @@ extension ProgressHUD {
 	private func setupBackground(_ interaction: Bool) {
 		if (viewBackground == nil) {
 			viewBackground = UIView(frame: bounds)
-			main.addSubview(viewBackground!)
+			main?.addSubview(viewBackground!)
 		}
 
 		viewBackground?.backgroundColor = interaction ? .clear : colorBackground
@@ -517,10 +517,10 @@ extension ProgressHUD {
 		}
 
 		DispatchQueue.main.async { [self] in
-			let center = CGPoint(x: main.bounds.size.width / 2, y: (main.bounds.size.height - heightKeyboard) / 2)
+			let center = CGPoint(x: (main?.bounds.size.width ?? 0) / 2, y: ((main?.bounds.size.height ?? 0) - heightKeyboard) / 2)
 
 			UIView.animate(withDuration: animationDuration, delay: 0, options: .allowUserInteraction) { [self] in
-				viewBackground?.frame = main.bounds
+                viewBackground?.frame = main?.bounds ?? .zero
 				toolbarHUD?.center = center
 			}
 		}

@@ -40,7 +40,7 @@ extension ProgressHUD {
 		resizeBanner()
 
 		if let viewBanner, let labelBannerTitle, let labelBannerMessage  {
-			main.addSubview(viewBanner)
+			main?.addSubview(viewBanner)
 			viewBanner.addSubview(labelBannerTitle)
 			viewBanner.addSubview(labelBannerMessage)
 
@@ -115,6 +115,8 @@ extension ProgressHUD {
 extension ProgressHUD {
 
 	private func resizeBanner() {
+        guard let main = main else { return }
+
 		let widthBanner = main.frame.width - 32
 		let widthLabel = main.frame.width - 64
 
