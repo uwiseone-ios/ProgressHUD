@@ -225,9 +225,31 @@ extension ProgressHUD {
 extension ProgressHUD {
 
 	func setupWindow() {
-		if (main == nil) {
-			main = UIApplication.shared.windows.first
+		if main == nil {
+			main = keyWindow() ?? UIApplication.shared.windows.first
+		} else if main?.windowScene?.activationState != .foregroundActive || (main?.isKeyWindow == false) {
+			// Refresh reference if the current window is not in foreground or not key anymore
+			main = keyWindow() ?? main
 		}
+	}
+
+	private func keyWindow() -> UIWindow? {
+		// Prefer the key window from a foreground-active scene
+		let scenes = UIApplication.shared.connectedScenes
+			.compactMap { $0 as? UIWindowScene }
+			.filter { $0.activationState == .foregroundActive }
+
+		// First try an explicitly key window
+		if let win = scenes.first?.windows.first(where: { $0.isKeyWindow }) {
+			return win
+		}
+
+		// Fallback to any visible window in the foreground scene
+		if let win = scenes.first?.windows.first(where: { !$0.isHidden && $0.alpha > 0 && $0.windowLevel == .normal }) {
+			return win
+		}
+
+		return nil
 	}
 }
 
@@ -597,3 +619,4 @@ extension ProgressHUD {
 		removeBackground()
 	}
 }
+
