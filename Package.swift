@@ -18,9 +18,11 @@ let package = Package(
         .target(
             name: "ProgressHUD",
             dependencies: [],
+            path: "ProgressHUD/Sources",
             resources: [
                 .process("PrivacyInfo.xcprivacy"),
             ]
         ),
     ]
 )
+
